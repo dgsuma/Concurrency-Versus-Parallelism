@@ -8,7 +8,7 @@ namespace ConcurrencyVsParallelDemo
         /* Below 3 tasks run concurrently */
         /// <summary>
         /// Concurrency means executing multiple task on the same core in a non-blocking
-        /// manner. Concurrency uses the same core & time slicing. It switches the time alots between task context, 
+        /// manner. Concurrency uses the same core and time slicing. It switches the time alots between task context, 
         /// to offer the time to finished the each defined task. Concurrency is a feel of Parallelism
         /// while Parallelism is the real Parallelism. Concurrency uses for usable, non-blocking
         /// and your application should not hang.
