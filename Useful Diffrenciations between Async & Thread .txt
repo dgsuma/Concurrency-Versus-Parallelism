@@ -1,0 +1,49 @@
+*** Asychronous code does not use threads.
+
+*** Async used to - Making application usable and Non-blocking main thread.
+*** Async - Not Improving performance and Not creating new threads. 
+
+ 
+IL Disassembler called "ildasm.exe" is available on the VS2019 in the following location
+
+C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools>ildasm
+
+=========================================================================================================
+Async uses internal technique called "state machines" that devide Async task into State 1, State 2 etc.,
+which drives the main thread saying that which chunk of code to be executed. Now we can see that whole
+Async thing is synchronous, but because of state machine thing, we think that this is asynchronous.
+
+Go to below URL to get more details about the state machine
+https://tinyurl.com/statemac
+
+=========================================================================================================
+
+In the AsyncVsThreading Console application Code 2 and Code 6 runs in a different threads (Thread id 1 and 4). 
+You can see the thread id in the output window as below:- Code 2 1, Code 6 4
+
+Code 1
+Code 2 1
+Code 3
+Code 4
+Code 7
+Code 8
+Code 5
+Code 6 4
+
+This explains in the "state_machine_thread-id_diagram 1.png" & "state_machine_thread-id_diagram 2.png" diagrams very well. The thing is in a Console application when main thread finishes, it lost its current context. After 20 seconds delay SomeMethod() finishes, Main() method already lost its current context and therefore it creates a new thread, which bears the id of 4. In Console application there is no concept calld "Synchronization context".
+ 
+But in Win Forms there is a concept called "Synchronization context". So, you can't see different thread id's when run Async 
+methods in Win Forms due to this "Synchronization context" concept. If you not understand well this "Synchronization context"
+you can think that Async methods creates a separate threads. But it's true.
+
+Overall Async method does not create sperate thrads & it uses "state machines" technique to drive Main() thread as seperate 
+chunks and it allows Async method to run in a Non-blocking manner. 
+
+Summarizing :-
+. Async does not create threads.
+. Async uses concept of state machines internally.
+. With out synchronization context Async can spawn threads to execute the remaining part of code.
+. Asynchrony is a form of concurrency.
+. You can implement Non-blocking threads by using threads but its resource intensive.
+. Usability Vs Performance.
+       
